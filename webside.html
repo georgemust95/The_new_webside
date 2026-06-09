@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="uz" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATUALUZ — TUIT Academic Lyceum Interactive Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#05070f',      /* Ultra Dark Space Navy */
+                            panel: '#090d1a',     /* Deep Glass Panel Blue */
+                            gold: '#dfab25',      /* Royal Uzbek Academy Gold */
+                            goldLight: '#f6d365', /* Bright Gold Highlight */
+                            glow: 'rgba(223, 171, 37, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        academic: ['Cinzel', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ambient Background Grid and Radial Glows matching the Image */
+        .premium-bg {
+            background-color: #05070f;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(223, 171, 37, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(20, 184, 166, 0.04) 0%, transparent 45%),
+                linear-gradient(rgba(5, 7, 15, 0.98), rgba(5, 7, 15, 0.98));
+            background-attachment: fixed;
+        }
+
+        /* Glassmorphism panel styling */
+        .glass-panel {
+            background: rgba(9, 13, 26, 0.65);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(223, 171, 37, 0.12);
+        }
+        .glass-panel:hover {
+            border-color: rgba(223, 171, 37, 0.3);
+            box-shadow: 0 0 30px rgba(223, 171, 37, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Gold glow effects for text and boundaries */
+        .gold-glow-text {
+            text-shadow: 0 0 15px rgba(223, 171, 37, 0.4);
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 25px rgba(223, 171, 37, 0.12);
+        }
+
+        /* Premium Customized Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070f;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(223, 171, 37, 0.25);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(223, 171, 37, 0.5);
+        }
+    </style>
+</head>
+<body class="premium-bg text-slate-200 min-h-screen font-sans overflow-x-hidden">
+
+    <!-- 1. TOP UTILITY BAR -->
+    <div class="border-b border-brand-gold/10 bg-[#03050a]/90 py-2.5 px-6 z-50 relative">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center text-xs text-slate-400 gap-3">
+            <div class="flex items-center gap-4">
+                <span class="hover:text-brand-gold transition cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-code-branch text-brand-gold"></i> latualuz.git</span>
+                <span class="text-slate-800">|</span>
+                <span class="hover:text-brand-gold transition cursor-pointer flex items-center gap-1.5"><i class="fa-solid fa-building-columns"></i> TUIT Academic Lyceum Portal</span>
+            </div>
+            <div class="flex items-center gap-5">
+                <button onclick="openModal('auth-modal')" class="hover:text-brand-gold transition flex items-center gap-1.5 font-semibold text-brand-gold">
+                    <i class="fa-solid fa-user-shield text-brand-gold/80 animate-pulse"></i> Profile access
+                </button>
+                <span class="text-slate-800">|</span>
+                <div class="flex items-center gap-2">
+                    <img src="https://flagcdn.com/16x12/uz.png" alt="Uzbekistan Flag" class="w-4 h-3 object-cover rounded-sm">
+                    <span class="font-semibold text-slate-300 cursor-pointer hover:text-brand-gold transition">UZ</span>
+                    <span class="text-slate-700">/</span>
+                    <span class="text-slate-500 cursor-pointer hover:text-brand-gold transition">EN</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN HEADER & LOGO WITH GEOMETRIC PATTERNS -->
+    <header class="sticky top-0 z-40 bg-brand-dark/95 backdrop-blur-md border-b border-brand-gold/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Brand Identity -->
+            <div class="flex items-center gap-4">
+                <!-- Golden Girih Shield / Rotating Emblem -->
+                <div class="relative w-12 h-12 flex items-center justify-center border border-brand-gold/30 bg-brand-panel shadow-[0_0_15px_rgba(223,171,37,0.1)]">
+                    <div class="absolute inset-0 border border-brand-gold/15 transform rotate-45"></div>
+                    <i class="fa-solid fa-microchip text-brand-gold text-lg z-10"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold font-academic tracking-wider text-white">
+                        TATU<span class="text-brand-gold gold-glow-text">ALUZ</span>
+                    </h1>
+                    <p class="text-[9px] uppercase tracking-widest text-slate-400 font-semibold font-sans">TUIT Academic Lyceum</p>
+                </div>
+            </div>
+
+            <!-- Nav Links -->
+            <nav class="hidden lg:flex items-center gap-8 text-xs font-bold tracking-widest text-slate-300">
+                <a href="#hero" class="text-brand-gold border-b-2 border-brand-gold pb-1 transition">BOSH SAHIFA</a>
+                <a href="#about" class="hover:text-brand-gold transition pb-1">BIZ HAQIMIZDA</a>
+                <a href="#news-section" class="hover:text-brand-gold transition pb-1">YANGILIKLAR</a>
+                <a href="#admission" class="hover:text-brand-gold transition pb-1">QABUL 2026</a>
+                <a href="#interactive-cards" class="hover:text-brand-gold transition pb-1">INTERAKTIV</a>
+                <a href="#footer" class="hover:text-brand-gold transition pb-1">ALOQA</a>
+            </nav>
+
+            <!-- Search bar & Mobile Menu Toggle -->
+            <div class="flex items-center gap-4">
+                <div class="relative hidden sm:block">
+                    <input type="text" placeholder="Qidirish..." class="bg-brand-panel/80 border border-brand-gold/20 rounded-full px-4 py-1.5 text-xs focus:outline-none focus:border-brand-gold/60 w-48 text-slate-200 transition">
+                    <i class="fa-solid fa-magnifying-glass text-slate-500 absolute right-3.5 top-2.5 text-xs"></i>
+                </div>
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-200 hover:text-brand-gold text-xl transition">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-panel border-b border-brand-gold/10 px-6 py-4 space-y-3 text-sm font-semibold">
+            <a href="#hero" class="block text-brand-gold py-1">BOSH SAHIFA</a>
+            <a href="#about" class="block hover:text-brand-gold py-1">BIZ HAQIMIZDA</a>
+            <a href="#news-section" class="block hover:text-brand-gold py-1">YANGILIKLAR</a>
+            <a href="#admission" class="block hover:text-brand-gold py-1">QABUL 2026</a>
+            <a href="#interactive-cards" class="block hover:text-brand-gold py-1">INTERAKTIV</a>
+            <a href="#footer" class="block hover:text-brand-gold py-1">ALOQA</a>
+        </div>
+    </header>
+
+    <!-- 3. HERO HERO SECTION -->
+    <section id="hero" class="relative max-w-7xl mx-auto px-6 py-12 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Floating decorative backdrops -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Left Content -->
+        <div class="lg:col-span-7 space-y-6 z-10">
+            <div class="flex items-center gap-2.5">
+                <span class="h-px w-8 bg-brand-gold/50"></span>
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold">Muhammad al-Xorazmiy Nomidagi Litsey</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black font-academic text-white leading-tight">
+                KELAJAK <br>TEXNOLOGIYALARI <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-200">SHU YERDAN</span> BOSHLANADI.
+            </h1>
+            <p class="text-slate-400 text-sm md:text-base max-w-xl leading-relaxed">
+                Toshkent axborot texnologiyalari universiteti akademik litseyi o'quvchilarga chuqurlashtirilgan muhandislik, dasturlash va aniq fanlarni o'qitishning zamonaviy ekotizimini taqdim etadi.
+            </p>
+            
+            <!-- Beautifully Stylized Golden Girih Action Button -->
+            <div class="pt-4">
+                <button onclick="openModal('about-modal')" class="group relative px-8 py-3.5 border border-brand-gold/50 bg-brand-panel hover:bg-brand-gold hover:text-brand-dark transition-all duration-300 font-bold text-xs uppercase tracking-widest text-brand-gold overflow-hidden">
+                    <span class="absolute top-0 left-0 w-2 h-2 border-t border-l border-brand-gold"></span>
+                    <span class="absolute top-0 right-0 w-2 h-2 border-t border-r border-brand-gold"></span>
+                    <span class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-brand-gold"></span>
+                    <span class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-brand-gold"></span>
+                    <span class="relative z-10 flex items-center gap-2">
+                        Batafsil ma'lumot <i class="fa-solid fa-arrow-right-long transition-transform group-hover:translate-x-1.5"></i>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Content: Stylized Digital Student Mock Frame mimicking the mockup image -->
+        <div class="lg:col-span-5 relative flex justify-center z-10">
+            <div class="relative w-full max-w-md aspect-[4/5] overflow-hidden border border-brand-gold/20 rounded-xl p-3 bg-brand-panel/50 backdrop-blur-sm gold-border-glow">
+                <!-- Inner Decorative Golden Corners -->
+                <div class="absolute top-4 left-4 w-4 h-4 border-t-2 border-l-2 border-brand-gold/60"></div>
+                <div class="absolute top-4 right-4 w-4 h-4 border-t-2 border-r-2 border-brand-gold/60"></div>
+                <div class="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-brand-gold/60"></div>
+                <div class="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-brand-gold/60"></div>
+
+                <!-- Styled Representation Image of Students in Front of Campus -->
+                <div class="w-full h-full rounded-lg overflow-hidden relative group">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-dark via-brand-dark/20 to-transparent z-10"></div>
+                    <img src="https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png" alt="TATUALUZ Talabalari" class="w-full h-full object-cover transition duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/400x500/0d1221/dfab25?text=TATUALUZ+Students'">
+                    
+                    <!-- Floating Widget inside image frame -->
+                    <div class="absolute bottom-6 left-6 right-6 z-20 glass-panel p-4 rounded-lg border border-brand-gold/20">
+                        <p class="text-[10px] text-brand-gold uppercase tracking-widest font-bold">Akademik Muhit</p>
+                        <h4 class="text-sm font-semibold mt-1 text-white">Xalqaro darajadagi malakali o'qituvchilar</h4>
+                        <div class="flex gap-2 mt-3">
+                            <span class="text-[10px] bg-brand-gold/10 text-brand-gold px-2.5 py-0.5 font-bold rounded">#IT</span>
+                            <span class="text-[10px] bg-brand-gold/10 text-brand-gold px-2.5 py-0.5 font-bold rounded">#ROBOTICS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. CORE INTERACTIVE THREE-CARD SECTION -->
+    <section id="interactive-cards" class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- CARD 1: TA'LIM YO'NALISHLARI -->
+            <div class="glass-panel rounded-xl p-6 flex flex-col justify-between transition-all duration-300 h-[480px]">
+                <div>
+                    <div class="flex items-center gap-3 border-b border-brand-gold/15 pb-4 mb-5">
+                        <div class="w-8 h-8 rounded-lg bg-brand-gold/15 flex items-center justify-center text-brand-gold">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h3 class="font-bold text-base uppercase tracking-widest text-slate-100 font-academic">1. TA'LIM YO'NALISHLARI</h3>
+                    </div>
+                    
+                    <!-- Grid of Categories matching image icon structure -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div onclick="openDirectionModal('it')" class="bg-brand-dark/60 p-4 border border-brand-gold/10 rounded-lg hover:border-brand-gold/40 cursor-pointer transition text-center group">
+                            <i class="fa-solid fa-code text-brand-gold text-2xl group-hover:scale-110 transition"></i>
+                            <h4 class="text-xs font-semibold mt-2.5 text-slate-300">IT & Dasturlash</h4>
+                        </div>
+                        <div onclick="openDirectionModal('physics')" class="bg-brand-dark/60 p-4 border border-brand-gold/10 rounded-lg hover:border-brand-gold/40 cursor-pointer transition text-center group">
+                            <i class="fa-solid fa-atom text-brand-gold text-2xl group-hover:scale-110 transition"></i>
+                            <h4 class="text-xs font-semibold mt-2.5 text-slate-300">Fizika fani</h4>
+                        </div>
+                        <div onclick="openDirectionModal('math')" class="bg-brand-dark/60 p-4 border border-brand-gold/10 rounded-lg hover:border-brand-gold/40 cursor-pointer transition text-center group">
+                            <i class="fa-solid fa-square-root-variable text-brand-gold text-2xl group-hover:scale-110 transition"></i>
+                            <h4 class="text-xs font-semibold mt-2.5 text-slate-300">Matematika</h4>
+                        </div>
+                        <div onclick="openDirectionModal('languages')" class="bg-brand-dark/60 p-4 border border-brand-gold/10 rounded-lg hover:border-brand-gold/40 cursor-pointer transition text-center group">
+                            <i class="fa-solid fa-language text-brand-gold text-2xl group-hover:scale-110 transition"></i>
+                            <h4 class="text-xs font-semibold mt-2.5 text-slate-300">Chet tillari</h4>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-500 italic mt-4 text-center">Batafsil ma'lumot olish uchun yo'nalishlardan birini tanlang</p>
+            </div>
+
+            <!-- CARD 2: SO'NGGI YANGILIKLAR -->
+            <div id="news-section" class="glass-panel rounded-xl p-6 flex flex-col justify-between transition-all duration-300 h-[480px]">
+                <div>
+                    <div class="flex items-center gap-3 border-b border-brand-gold/15 pb-4 mb-5">
+                        <div class="w-8 h-8 rounded-lg bg-brand-gold/15 flex items-center justify-center text-brand-gold">
+                            <i class="fa-regular fa-newspaper"></i>
+                        </div>
+                        <h3 class="font-bold text-base uppercase tracking-widest text-slate-100 font-academic">2. SO'NGGI YANGILIKLAR</h3>
+                    </div>
+                    
+                    <!-- News List with thumbnails matching mockup -->
+                    <div class="space-y-4">
+                        <!-- News item 1 -->
+                        <div onclick="openNewsModal('tatu-graduation')" class="flex items-center gap-3 bg-brand-dark/40 p-2.5 border border-brand-gold/5 hover:border-brand-gold/25 cursor-pointer rounded-lg transition group">
+                            <img src="https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png" alt="News Image" class="w-12 h-12 object-cover rounded border border-brand-gold/10" onerror="this.src='https://placehold.co/100x100/0d1221/dfab25?text=News'">
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[10px] text-brand-gold font-bold">27.05.2026</span>
+                                <h4 class="text-xs font-semibold text-slate-200 truncate group-hover:text-brand-gold transition">Litseyimizda bitiruv tantanasi tashkil etildi</h4>
+                            </div>
+                        </div>
+
+                        <!-- News item 2 -->
+                        <div onclick="openNewsModal('partnership')" class="flex items-center gap-3 bg-brand-dark/40 p-2.5 border border-brand-gold/5 hover:border-brand-gold/25 cursor-pointer rounded-lg transition group">
+                            <img src="https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png" alt="News Image" class="w-12 h-12 object-cover rounded border border-brand-gold/10" onerror="this.src='https://placehold.co/100x100/0d1221/dfab25?text=News'">
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[10px] text-brand-gold font-bold">19.05.2026</span>
+                                <h4 class="text-xs font-semibold text-slate-200 truncate group-hover:text-brand-gold transition">Tashkent Tech University bilan kelishuv</h4>
+                            </div>
+                        </div>
+
+                        <!-- News item 3 -->
+                        <div onclick="openNewsModal('olympiad')" class="flex items-center gap-3 bg-brand-dark/40 p-2.5 border border-brand-gold/5 hover:border-brand-gold/25 cursor-pointer rounded-lg transition group">
+                            <img src="https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png" alt="News Image" class="w-12 h-12 object-cover rounded border border-brand-gold/10" onerror="this.src='https://placehold.co/100x100/0d1221/dfab25?text=News'">
+                            <div class="flex-1 min-w-0">
+                                <span class="text-[10px] text-brand-gold font-bold">10.05.2026</span>
+                                <h4 class="text-xs font-semibold text-slate-200 truncate group-hover:text-brand-gold transition">Fan olimpiadasida yuksak g'alabalar</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="openModal('all-news-modal')" class="text-xs font-bold text-brand-gold text-center hover:underline hover:text-yellow-200 transition">Barcha yangiliklarni o'qish &rarr;</button>
+            </div>
+
+            <!-- CARD 3: INTERAKTIV IMKONIYATLAR -->
+            <div class="glass-panel rounded-xl p-6 flex flex-col justify-between transition-all duration-300 h-[480px]">
+                <div>
+                    <div class="flex items-center gap-3 border-b border-brand-gold/15 pb-4 mb-5">
+                        <div class="w-8 h-8 rounded-lg bg-brand-gold/15 flex items-center justify-center text-brand-gold">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h3 class="font-bold text-base uppercase tracking-widest text-slate-100 font-academic">3. INTERAKTIV TIZIM</h3>
+                    </div>
+                    
+                    <!-- Menu Links with Icons matching the original style -->
+                    <div class="space-y-3.5">
+                        <button onclick="openModal('gpa-modal')" class="w-full flex items-center justify-between p-4 bg-brand-dark/50 hover:bg-brand-gold/10 border border-brand-gold/15 hover:border-brand-gold rounded-lg transition text-left group">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-calculator text-brand-gold text-lg group-hover:scale-110 transition"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">GPA Kalkulyator</h4>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">Akademik o'rtacha ballni hisoblash</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-angle-right text-brand-gold/60 text-sm"></i>
+                        </button>
+
+                        <button onclick="openModal('application-modal')" class="w-full flex items-center justify-between p-4 bg-brand-dark/50 hover:bg-brand-gold/10 border border-brand-gold/15 hover:border-brand-gold rounded-lg transition text-left group">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-file-signature text-brand-gold text-lg group-hover:scale-110 transition"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Onlayn Ariza</h4>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">Litseyga qabul uchun hujjat topshirish</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-angle-right text-brand-gold/60 text-sm"></i>
+                        </button>
+
+                        <button onclick="openModal('library-modal')" class="w-full flex items-center justify-between p-4 bg-brand-dark/50 hover:bg-brand-gold/10 border border-brand-gold/15 hover:border-brand-gold rounded-lg transition text-left group">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-book-open text-brand-gold text-lg group-hover:scale-110 transition"></i>
+                                <div>
+                                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Raqamli Kutubxona</h4>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">E-Kutubxona darsliklar ombori</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-angle-right text-brand-gold/60 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+                <p class="text-[11px] text-slate-500 text-center">TATUALUZ interaktiv xizmatlar ekotizimi</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. QABUL 2026 TIMELINE SECTION -->
+    <section id="admission" class="max-w-7xl mx-auto px-6 py-12 relative">
+        <div class="absolute -bottom-10 left-1/2 -translate-x-1/2 w-4/5 h-1 bg-gradient-to-r from-transparent via-brand-gold/30 to-transparent"></div>
+
+        <!-- Timeline Frame Container with custom ornaments in code -->
+        <div class="glass-panel rounded-xl p-8 relative overflow-hidden bg-brand-panel/80">
+            <!-- Decorative Golden Uzbek Grid background accents -->
+            <div class="absolute -left-10 -top-10 opacity-10 text-brand-gold text-9xl pointer-events-none font-serif">✥</div>
+            <div class="absolute -right-10 -bottom-10 opacity-10 text-brand-gold text-9xl pointer-events-none font-serif">✥</div>
+
+            <div class="text-center mb-10 z-10 relative">
+                <h2 class="text-3xl font-bold font-academic text-white tracking-widest uppercase">QABUL 2026</h2>
+                <p class="text-xs text-brand-gold tracking-widest uppercase mt-2">Timeline and step-by-step admission stages</p>
+            </div>
+
+            <!-- Steps Progress Bar -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 z-10 relative">
+                <!-- Step 1 -->
+                <div onclick="showTimelineStep(1)" id="step-card-1" class="bg-brand-dark/60 p-5 border border-brand-gold/30 rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group">
+                    <div class="absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-bold text-xs shadow-md">1</div>
+                    <h4 class="text-xs font-bold text-brand-gold mt-2 uppercase tracking-wide">1-BOSQICH</h4>
+                    <p class="text-xs font-semibold text-slate-200 mt-1">Onlayn Ro'yxat</p>
+                    <p class="text-[10px] text-slate-400 mt-2 line-clamp-2">Abituriyentlar my.uzbmb.uz platformasida onlayn ro'yxatdan o'tadilar.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div onclick="showTimelineStep(2)" id="step-card-2" class="bg-brand-dark/40 p-5 border border-brand-gold/10 rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group">
+                    <div class="absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs shadow-md">2</div>
+                    <h4 class="text-xs font-bold text-slate-400 mt-2 uppercase tracking-wide">2-BOSQICH</h4>
+                    <p class="text-xs font-semibold text-slate-200 mt-1">Hujjat topshirish</p>
+                    <p class="text-[10px] text-slate-400 mt-2 line-clamp-2">Kerakli pasport, rasm va fan sertifikatlari yuklanishi tasdiqlanadi.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div onclick="showTimelineStep(3)" id="step-card-3" class="bg-brand-dark/40 p-5 border border-brand-gold/10 rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group">
+                    <div class="absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs shadow-md">3</div>
+                    <h4 class="text-xs font-bold text-slate-400 mt-2 uppercase tracking-wide">3-BOSQICH</h4>
+                    <p class="text-xs font-semibold text-slate-200 mt-1">Kirish Imtihonlari</p>
+                    <p class="text-[10px] text-slate-400 mt-2 line-clamp-2">Tasdiqlangan fanlardan Davlat test markazi binosida imtihon.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div onclick="showTimelineStep(4)" id="step-card-4" class="bg-brand-dark/40 p-5 border border-brand-gold/10 rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group">
+                    <div class="absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs shadow-md">4</div>
+                    <h4 class="text-xs font-bold text-slate-400 mt-2 uppercase tracking-wide">4-BOSQICH</h4>
+                    <p class="text-xs font-semibold text-slate-200 mt-1">Natijalar (Mandat)</p>
+                    <p class="text-[10px] text-slate-400 mt-2 line-clamp-2">Yakuniy natijalar va litseyga tavsiya etilganlar e'lon qilinishi.</p>
+                </div>
+            </div>
+
+            <!-- Step Detail Panel Dynamically Controlled -->
+            <div class="mt-8 bg-brand-dark/70 p-5 border border-brand-gold/15 rounded-lg">
+                <div id="step-detail-title" class="text-sm font-bold text-brand-gold flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info"></i> BOSQICH TAFSILOTLARI — 1-BOSQICH (ONLAYN RO'YXAT)
+                </div>
+                <p id="step-detail-text" class="text-xs text-slate-300 mt-2.5 leading-relaxed">
+                    Abituriyentlar onlayn arizani ro'yxatdan o'tkazish uchun zarur bo'lgan shaxsiy ma'lumotlarni to'ldiradilar, pasport yoki tug'ilganlik to'g'risidagi guvohnoma seriyasini kiritadilar hamda ta'lim tili va kerakli ta'lim yo'nalishini tanlaydilar. Ushbu bosqich butunlay masofaviy amalga oshiriladi.
+                </p>
+                <div class="flex gap-4 mt-4 text-[10px] text-slate-400">
+                    <span><i class="fa-regular fa-calendar-days text-brand-gold mr-1"></i> Boshlanish sanasi: <strong class="text-slate-200">17.07.2026</strong></span>
+                    <span><i class="fa-regular fa-calendar-days text-brand-gold mr-1"></i> Yakunlanish sanasi: <strong class="text-slate-200">23.08.2026</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================== MODALS REGION ================== -->
+
+    <!-- GPA CALCULATOR MODAL -->
+    <div id="gpa-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-brand-dark/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-xl overflow-hidden shadow-2xl relative border border-brand-gold/30">
+            <div class="bg-brand-dark p-6 border-b border-brand-gold/20 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-calculator text-brand-gold text-lg"></i>
+                    <h3 class="font-bold text-base text-white uppercase tracking-wider font-academic">GPA O'rtacha ball kalkulyatori</h3>
+                </div>
+                <button onclick="closeModal('gpa-modal')" class="text-slate-400 hover:text-brand-gold text-lg transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="p-6 space-y-4">
+                <p class="text-xs text-slate-400 leading-relaxed">Fanning nomi va o'zlashtirish darajasini tanlang, so'ngra reyting o'rtacha ballini aniqlash tugmasini bosing.</p>
+                
+                <!-- Dynamic Subjects Container -->
+                <div id="gpa-rows-container" class="space-y-3 max-h-48 overflow-y-auto pr-1">
+                    <!-- Default Row 1 -->
+                    <div class="grid grid-cols-12 gap-3 items-center gpa-row">
+                        <input type="text" placeholder="Fan nomi (masalan, Matematika)" class="col-span-7 bg-brand-dark border border-brand-gold/20 rounded px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                        <select class="col-span-4 bg-brand-dark border border-brand-gold/20 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-brand-gold/60">
+                            <option value="5">A (5 - A'lo)</option>
+                            <option value="4">B (4 - Yaxshi)</option>
+                            <option value="3">C (3 - Qoniqarli)</option>
+                            <option value="2">D (2 - Qoniqarsiz)</option>
+                        </select>
+                        <button onclick="deleteGpaRow(this)" class="col-span-1 text-red-400 hover:text-red-300 text-xs text-center transition"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="addGpaRow()" class="flex-1 bg-brand-dark/80 hover:bg-brand-gold/15 border border-brand-gold/20 hover:border-brand-gold/60 text-[11px] font-bold uppercase tracking-wider py-2 text-slate-300 transition">
+                        <i class="fa-solid fa-plus mr-1"></i> Yangi fan qo'shish
+                    </button>
+                    <button onclick="calculateGpa()" class="flex-1 bg-brand-gold text-brand-dark font-bold text-[11px] uppercase tracking-wider py-2 hover:bg-yellow-400 transition">
+                        Hisoblash
+                    </button>
+                </div>
+
+                <!-- Result Frame -->
+                <div class="pt-5 border-t border-brand-gold/15 flex justify-between items-center bg-brand-dark/40 p-4 rounded-lg">
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-300">Sizning o'rtacha GPA ko'rsatkichingiz:</h4>
+                        <p class="text-[10px] text-slate-500 mt-1">Maksimal ball: 5.00</p>
+                    </div>
+                    <div id="gpa-result-box" class="text-3xl font-black text-brand-gold gold-glow-text">0.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ONLINE APPLICATION FORM MODAL -->
+    <div id="application-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-brand-dark/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-xl rounded-xl overflow-hidden shadow-2xl relative border border-brand-gold/30">
+            <div class="bg-brand-dark p-6 border-b border-brand-gold/20 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-file-signature text-brand-gold text-lg"></i>
+                    <h3 class="font-bold text-base text-white uppercase tracking-wider font-academic">Litseyga Onlayn Ariza</h3>
+                </div>
+                <button onclick="closeModal('application-modal')" class="text-slate-400 hover:text-brand-gold text-lg transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <form onsubmit="submitApplicationForm(event)" class="p-6 space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">F.I.SH. (To'liq Ismingiz)</label>
+                        <input required type="text" placeholder="Ism Sharifingizni kiriting" class="w-full bg-brand-dark border border-brand-gold/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Telefon raqamingiz</label>
+                        <input required type="text" placeholder="+998 (90) 123-45-67" class="w-full bg-brand-dark border border-brand-gold/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Ta'lim yo'nalishi</label>
+                        <select class="w-full bg-brand-dark border border-brand-gold/20 rounded px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-brand-gold/60">
+                            <option value="IT va Dasturlash">IT va Dasturlash</option>
+                            <option value="Aniq Fanlar (Matematika)">Aniq Fanlar (Matematika)</option>
+                            <option value="Fizika va muhandislik">Fizika va muhandislik</option>
+                            <option value="Xorijiy tillar">Xorijiy tillar va ijtimoiy</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Pasport yoki Tug'ilganlik seriyasi</label>
+                        <input required type="text" placeholder="AD 1234567" class="w-full bg-brand-dark border border-brand-gold/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Chet tili bilish sertifikati (mavjud bo'lsa)</label>
+                    <input type="text" placeholder="IELTS, CEFR yoki boshqa (masalan: IELTS 6.5)" class="w-full bg-brand-dark border border-brand-gold/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                </div>
+
+                <div class="pt-4 border-t border-brand-gold/15 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('application-modal')" class="bg-brand-dark/80 hover:bg-slate-800 border border-brand-gold/10 text-slate-300 text-[10px] font-bold uppercase tracking-wider px-5 py-2.5 rounded transition">Bekor qilish</button>
+                    <button type="submit" class="bg-brand-gold hover:bg-yellow-400 text-brand-dark text-[10px] font-bold uppercase tracking-wider px-5 py-2.5 rounded transition">Ariza yuborish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- NEWS DETAIL MODAL -->
+    <div id="news-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-brand-dark/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-lg rounded-xl overflow-hidden shadow-2xl relative border border-brand-gold/30">
+            <div class="bg-brand-dark p-6 border-b border-brand-gold/20 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-regular fa-newspaper text-brand-gold text-lg"></i>
+                    <h3 id="news-modal-title" class="font-bold text-base text-white uppercase tracking-wider font-academic">Yangilik batafsil</h3>
+                </div>
+                <button onclick="closeModal('news-modal')" class="text-slate-400 hover:text-brand-gold text-lg transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <img id="news-modal-image" src="" alt="News Image" class="w-full h-48 object-cover rounded-lg border border-brand-gold/15" onerror="this.src='https://placehold.co/400x200/0d1221/dfab25?text=TATUALUZ'">
+                <span id="news-modal-date" class="text-xs text-brand-gold font-bold"></span>
+                <p id="news-modal-content" class="text-xs text-slate-300 leading-relaxed"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIRECTION DETAIL MODAL -->
+    <div id="direction-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-brand-dark/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel w-full max-w-md rounded-xl overflow-hidden shadow-2xl relative border border-brand-gold/30">
+            <div class="bg-brand-dark p-6 border-b border-brand-gold/20 flex justify-between items-center">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-graduation-cap text-brand-gold text-lg"></i>
+                    <h3 id="direction-modal-title" class="font-bold text-base text-white uppercase tracking-wider font-academic">Ta'lim Yo'nalishi</h3>
+                </div>
+                <button onclick="closeModal('direction-modal')" class="text-slate-400 hover:text-brand-gold text-lg transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p id="direction-modal-desc" class="text-xs text-slate-300 leading-relaxed"></p>
+                <div class="bg-brand-dark/50 p-4 rounded-lg border border-brand-gold/10">
+                    <h4 class="text-xs font-bold text-brand-gold uppercase tracking-wider">Imtihon topshiriladigan fanlar:</h4>
+                    <p id="direction-modal-exams" class="text-xs text-slate-200 mt-1.5 font-medium"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO ACCESS DENIED FALLBACK & SUCCESS NOTIFICATIONS -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- 6. SLEEK FOOTER -->
+    <footer id="footer" class="border-t border-brand-gold/15 bg-[#03050a] py-12 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+            <!-- Brand Column -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 border border-brand-gold/30 flex items-center justify-center bg-brand-panel">
+                        <span class="text-brand-gold font-academic font-bold">T</span>
+                    </div>
+                    <span class="text-lg font-bold font-academic tracking-widest text-white">TATU<span class="text-brand-gold">ALUZ</span></span>
+                </div>
+                <p class="text-xs text-slate-400 leading-relaxed">Kelajak mutaxassislarini eng ilg'or usullar bilan tayyorlaydigan raqamli ta'lim makoni.</p>
+            </div>
+
+            <!-- Fast Links -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Tezkor Havolalar</h4>
+                <ul class="text-xs text-slate-400 space-y-2">
+                    <li><a href="#about" class="hover:text-brand-gold transition">Biz haqimizda</a></li>
+                    <li><a href="#news-section" class="hover:text-brand-gold transition">Litsey yangiliklari</a></li>
+                    <li><a href="#admission" class="hover:text-brand-gold transition">Qabul jarayonlari</a></li>
+                    <li><a href="#interactive-cards" class="hover:text-brand-gold transition">Interaktiv xizmatlar</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact/Social -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Aloqa Ma'lumotlari</h4>
+                <ul class="text-xs text-slate-400 space-y-2">
+                    <li><i class="fa-solid fa-phone text-brand-gold mr-2"></i> +998 (71) 200-00-00</li>
+                    <li><i class="fa-regular fa-envelope text-brand-gold mr-2"></i> info@tatualuz.uz</li>
+                    <li><i class="fa-solid fa-location-dot text-brand-gold mr-2"></i> Toshkent sh., Chilonzor t.</li>
+                </ul>
+            </div>
+
+            <!-- Social Media Cards -->
+            <div class="space-y-3">
+                <h4 class="text-xs font-bold text-white uppercase tracking-wider">Biz ijtimoiy tarmoqlarda</h4>
+                <div class="flex gap-3">
+                    <a href="https://t.me/tatualuz_official" class="w-8 h-8 rounded-lg bg-brand-panel hover:bg-brand-gold hover:text-brand-dark flex items-center justify-center text-brand-gold border border-brand-gold/20 transition"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-brand-panel hover:bg-brand-gold hover:text-brand-dark flex items-center justify-center text-brand-gold border border-brand-gold/20 transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-lg bg-brand-panel hover:bg-brand-gold hover:text-brand-dark flex items-center justify-center text-brand-gold border border-brand-gold/20 transition"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-brand-gold/10 text-center text-[11px] text-slate-500">
+            <p>&copy; 2026 TATU Akademik Litseyi (TATUALUZ). Barcha huquqlar qonun bilan himoyalangan.</p>
+        </div>
+    </footer>
+
+    <!-- ================== SCRIPT INLINE ================== -->
+    <script>
+        // Toggle mobile menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Open specific modal
+        function openModal(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.remove('hidden');
+            }
+        }
+
+        // Close specific modal
+        function closeModal(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.classList.add('hidden');
+            }
+        }
+
+        // Custom Notification (Toast Builder)
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-lg shadow-lg text-xs font-semibold text-slate-200 border transform translate-y-2 transition duration-300 pointer-events-auto flex items-center gap-2 ${
+                type === 'success' ? 'bg-[#090d1a] border-emerald-500/50' : 'bg-[#090d1a] border-brand-gold/50'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-regular ${type === 'success' ? 'fa-circle-check text-emerald-400' : 'fa-circle-question text-brand-gold'} text-lg"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // Dynamic news card interaction modal handler
+        const newsData = {
+            'tatu-graduation': {
+                title: 'Litseyimizda bitiruv tantanasi tashkil etildi',
+                date: '27.05.2026',
+                content: 'Bugun litseyimizda navbatdagi bitiruvchi yoshlarimiz uchun tantanali tadbirlar bo\'lib o\'tdi. Mazkur tadbirda TUIT rahbariyati, litsey ustozlari va ota-onalar ishtirok etib, yoshlarga kelgusi hayot yo\'llarida, xususan oliy ta\'lim muassasalariga kirish sinovlarida muvaffaqiyatlar tiladilar.',
+                image: 'https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png'
+            },
+            'partnership': {
+                title: 'Tashkent Tech University bilan kelishuv',
+                date: '19.05.2026',
+                content: 'Akademik litseyimiz yosh muhandis va dasturchilarni yanada kuchliroq tayyorlash yo\'lida yangi memorandum imzoladi. Mazkur kelishuv doirasida litsey o\'quvchilari universitetning zamonaviy laboratoriya va markazlaridan bepul foydalanish huquqiga ega bo\'ladilar.',
+                image: 'https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png'
+            },
+            'olympiad': {
+                title: 'Fan olimpiadasida yuksak g\'alabalar',
+                date: '10.05.2026',
+                content: 'Litseyimiz matematika va informatika jamoasi Respublika fan olimpiadalarida tengsiz ekanligini isbotladi. Quvonarlisi, o\'quvchilarimizdan 3 nafari oltin medalni qo\'lga kiritdi hamda kelasi yili nufuzli OTMlarga test sinovlarisiz kirish huquqiga ega bo\'ldi.',
+                image: 'https://seatsone.ai/wp-content/uploads/2026/04/ChatGPT-Image-Apr-29-2026-02_05_53-PM.png'
+            }
+        };
+
+        function openNewsModal(key) {
+            const data = newsData[key];
+            if (data) {
+                document.getElementById('news-modal-title').textContent = data.title;
+                document.getElementById('news-modal-date').textContent = data.date;
+                document.getElementById('news-modal-content').textContent = data.content;
+                document.getElementById('news-modal-image').src = data.image;
+                openModal('news-modal');
+            }
+        }
+
+        // Dynamic direction card details modal handler
+        const directionData = {
+            'it': {
+                title: 'IT va Zamonaviy Dasturlash',
+                desc: 'Axborot texnologiyalari yo\'nalishida o\'quvchilar Python, C++, Web-texnologiyalar, ma\'lumotlar bazasi va sun\'iy intellekt tushunchalari bo\'yicha chuqurlashtirilgan bilim oladilar.',
+                exams: 'Matematika (3.1 ball) va Chet tili (2.1 ball)'
+            },
+            'physics': {
+                title: 'Fizika va Muhandislik yo\'nalishi',
+                desc: 'Ushbu guruhlarda fundamental fizika, mexanika va elektronika asoslari chuqur o\'rgatiladi. Darslar zamonaviy asbob-uskunalar bilan jihozlangan laboratoriyalarimizda amalga oshiriladi.',
+                exams: 'Fizika (3.1 ball) va Matematika (2.1 ball)'
+            },
+            'math': {
+                title: 'Matematika (Aniq Fanlar)',
+                desc: 'Yuqori darajadagi mantiq va tahliliy fikrlashni rivojlantiruvchi chuqur matematika darslari. Olimpiada va ilmiy tadqiqotlarga ixtisoslashtirilgan o\'quv rejasi.',
+                exams: 'Matematika (3.1 ball) va Fizika (2.1 ball)'
+            },
+            'languages': {
+                title: 'Xorijiy va Chet Tillari yo\'nalishi',
+                desc: 'IELTS, CEFR kabi nufuzli xalqaro sertifikatlar olishga mo\'ljallangan mukammal intensiv dastur. Texnik va akademik ingliz tili darslari.',
+                exams: 'Chet tili (3.1 ball) va Tarix (2.1 ball)'
+            }
+        };
+
+        function openDirectionModal(key) {
+            const data = directionData[key];
+            if (data) {
+                document.getElementById('direction-modal-title').textContent = data.title;
+                document.getElementById('direction-modal-desc').textContent = data.desc;
+                document.getElementById('direction-modal-exams').textContent = data.exams;
+                openModal('direction-modal');
+            }
+        }
+
+        // Interactive GPA calculator rows management
+        function addGpaRow() {
+            const container = document.getElementById('gpa-rows-container');
+            const row = document.createElement('div');
+            row.className = 'grid grid-cols-12 gap-3 items-center gpa-row';
+            row.innerHTML = `
+                <input type="text" placeholder="Fan nomi" class="col-span-7 bg-brand-dark border border-brand-gold/20 rounded px-3 py-1.5 text-xs text-slate-100 focus:outline-none focus:border-brand-gold/60">
+                <select class="col-span-4 bg-brand-dark border border-brand-gold/20 rounded px-2 py-1.5 text-xs text-slate-300 focus:outline-none focus:border-brand-gold/60">
+                    <option value="5">A (5 - A'lo)</option>
+                    <option value="4">B (4 - Yaxshi)</option>
+                    <option value="3">C (3 - Qoniqarli)</option>
+                    <option value="2">D (2 - Qoniqarsiz)</option>
+                </select>
+                <button onclick="deleteGpaRow(this)" class="col-span-1 text-red-400 hover:text-red-300 text-xs text-center transition"><i class="fa-regular fa-trash-can"></i></button>
+            `;
+            container.appendChild(row);
+        }
+
+        function deleteGpaRow(button) {
+            const rows = document.querySelectorAll('.gpa-row');
+            if (rows.length > 1) {
+                button.closest('.gpa-row').remove();
+            } else {
+                showNotification('Kamida bitta fan qolishi shart!', 'error');
+            }
+        }
+
+        function calculateGpa() {
+            const rows = document.querySelectorAll('.gpa-row');
+            let totalGrade = 0;
+            let count = 0;
+            rows.forEach(row => {
+                const selectValue = parseFloat(row.querySelector('select').value);
+                totalGrade += selectValue;
+                count++;
+            });
+            const finalGpa = (totalGrade / count).toFixed(2);
+            document.getElementById('gpa-result-box').textContent = finalGpa;
+            showNotification(`Hisoblash yakunlandi! Sizning GPA: ${finalGpa}`);
+        }
+
+        // Onlayn application form response
+        function submitApplicationForm(event) {
+            event.preventDefault();
+            showNotification('Arizangiz muvaffaqiyatli qabul qilindi! Tez orada bog\'lanamiz.');
+            closeModal('application-modal');
+        }
+
+        // Interactive Timeline step detail renderer
+        const timelineSteps = {
+            1: {
+                title: "1-BOSQICH: ONLAYN RO'YXAT",
+                text: "Abituriyentlar onlayn arizani ro'yxatdan o'tkazish uchun zarur bo'lgan shaxsiy ma'lumotlarni to'ldiradilar, pasport yoki tug'ilganlik to'g'risidagi guvohnoma seriyasini kiritadilar hamda ta'lim tili va ta'lim yo'nalishini tanlaydilar.",
+                start: "17.07.2026",
+                end: "23.08.2026"
+            },
+            2: {
+                title: "2-BOSQICH: HUJJAT TOPSHIRISH",
+                text: "Ro'yxatdan muvaffaqiyatli o'tgan abituriyentlar o'zlarining umumiy o'rta ta'lim (9-sinf) attestatlari nusxalarini hamda rasmlarini elektron formatda portalga yuklaydilar. Barcha hujjatlar komissiya tomonidan onlayn tekshirilib tasdiqlanadi.",
+                start: "24.08.2026",
+                end: "30.08.2026"
+            },
+            3: {
+                title: "3-BOSQICH: KIRISH IMTIHONLARI",
+                text: "Litseyga kirish imtihonlari Davlat test markazi (DTM) tomonidan maxsus ishlab chiqilgan tartibda va nazorat ostida o'tkaziladi. Abituriyentlar matematika, fizika yoki ingliz tili fanlaridan test topshiradilar.",
+                start: "05.09.2026",
+                end: "10.09.2026"
+            },
+            4: {
+                title: "4-BOSQICH: NATIJALAR (MANDAT)",
+                text: "To'plangan umumiy ballar asosida litseyimizga tavsiya etilgan o'quvchilar ro'yxati e'lon qilinadi. Mandat natijalariga ko'ra eng yuqori ball to'plaganlar davlat granti asosida o'qishga qabul qilinadi.",
+                start: "15.09.2026",
+                end: "18.09.2026"
+            }
+        };
+
+        function showTimelineStep(stepNumber) {
+            // Update active states
+            for (let i = 1; i <= 4; i++) {
+                const card = document.getElementById(`step-card-${i}`);
+                const badge = card.querySelector('.absolute');
+                if (i === stepNumber) {
+                    card.className = "bg-brand-dark/60 p-5 border border-brand-gold rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group";
+                    badge.className = "absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-bold text-xs shadow-md";
+                } else {
+                    card.className = "bg-brand-dark/40 p-5 border border-brand-gold/10 rounded-lg cursor-pointer hover:border-brand-gold transition duration-300 relative group";
+                    badge.className = "absolute -top-3.5 left-4 w-7 h-7 rounded-full bg-slate-800 text-slate-400 flex items-center justify-center font-bold text-xs shadow-md";
+                }
+            }
+
+            // Update details
+            const data = timelineSteps[stepNumber];
+            if (data) {
+                document.getElementById('step-detail-title').innerHTML = `<i class="fa-solid fa-circle-info"></i> BOSQICH TAFSILOTLARI — ${data.title}`;
+                document.getElementById('step-detail-text').textContent = data.text;
+                // update date labels inside details wrapper dynamically
+                const spanElements = document.querySelectorAll('#admission div div.flex.gap-4.mt-4.text-\\[10px\\] span strong');
+                if (spanElements.length >= 2) {
+                    spanElements[0].textContent = data.start;
+                    spanElements[1].textContent = data.end;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TATUALUZ — Ma'lumotlar Bazasi Integratsiyasi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #05070f;
+        }
+        .gold-border-glow {
+            box-shadow: 0 0 20px rgba(223, 171, 37, 0.15);
+        }
+    </style>
+</head>
+<body class="text-slate-200 min-h-screen flex flex-col justify-between">
+
+    <!-- Tepalik Bar -->
+    <header class="border-b border-yellow-600/10 bg-[#03050a]/90 py-4 px-6">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 border border-yellow-500 flex items-center justify-center bg-[#090d1a] transform -rotate-12">
+                    <span class="text-yellow-500 font-bold">T</span>
+                </div>
+                <h1 class="text-lg font-bold tracking-wider text-white">TATU<span class="text-yellow-500">ALUZ</span> <span class="text-xs text-slate-500 font-mono">DB-v1.0</span></h1>
+            </div>
+            <div id="user-status-bar" class="text-xs text-slate-400">
+                Tizim holati: <span class="text-red-400 font-semibold">Ulanmagan</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Asosiy Kontent -->
+    <main class="flex-grow max-w-4xl w-full mx-auto p-6 flex flex-col justify-center items-center gap-8">
+        
+        <!-- 1. LOGIN / RO'YXATDAN O'TISH PANEL -->
+        <div id="auth-panel" class="w-full max-w-md p-8 bg-[#090d1a] border border-yellow-500/15 rounded-xl gold-border-glow">
+            <h2 class="text-xl font-bold text-center mb-6 text-white tracking-wide">Tizimga Kirish</h2>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] text-slate-400 uppercase font-bold mb-1.5">Foydalanuvchi Rolini tanlang (Simulyatsiya uchun)</label>
+                    <select id="auth-role" class="w-full bg-[#05070f] border border-yellow-500/20 rounded px-3 py-2 text-xs text-slate-300 focus:outline-none focus:border-yellow-500">
+                        <option value="user">Oddiy foydalanuvchi (O'quvchi)</option>
+                        <option value="admin">Tizim boshqaruvchisi (Admin)</option>
+                    </select>
+                </div>
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-xs uppercase tracking-wider py-3 transition">
+                        Baza orqali kirish
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 2. INTERAKTIV ISHLASH PANEL (Login qilingandan keyin ko'rinadi) -->
+        <div id="main-dashboard" class="hidden w-full space-y-6">
+            
+            <!-- Foydalanuvchi ma'lumoti kartasi -->
+            <div class="p-6 bg-[#090d1a] border border-yellow-500/15 rounded-xl flex flex-wrap justify-between items-center gap-4">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <span id="display-user-role-badge" class="text-[10px] px-2.5 py-0.5 rounded font-black uppercase"></span>
+                        <span id="display-user-name">Foydalanuvchi</span>
+                    </h3>
+                    <p id="display-user-id" class="text-[10px] text-slate-500 mt-1 font-mono"></p>
+                </div>
+                <button onclick="logout()" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold px-4 py-2 rounded transition">
+                    Tizimdan chiqish
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <!-- Admin oynasi (Faqat adminlarga ko'rinadi) -->
+                <div id="admin-action-box" class="hidden md:col-span-5 p-6 bg-[#090d1a] border border-yellow-500/25 rounded-xl space-y-4">
+                    <h3 class="text-sm font-bold text-yellow-500 uppercase tracking-wider">📢 Yangi e'lon qo'shish</h3>
+                    <p class="text-[11px] text-slate-400">Bu bo'lim faqat admin rolidagi foydalanuvchilarga ma'lumotlar bazasiga ma'lumot yozish imkonini beradi.</p>
+                    
+                    <form id="announcement-form" class="space-y-3">
+                        <div>
+                            <label class="block text-[9px] text-slate-400 uppercase font-bold mb-1">E'lon sarlavhasi</label>
+                            <input id="ann-title" required type="text" placeholder="Sarlavhani kiriting" class="w-full bg-[#05070f] border border-yellow-500/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-yellow-500">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] text-slate-400 uppercase font-bold mb-1">E'lon matni</label>
+                            <textarea id="ann-content" required rows="3" placeholder="Batafsil ma'lumot..." class="w-full bg-[#05070f] border border-yellow-500/20 rounded px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-yellow-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold text-[10px] uppercase tracking-wider py-2.5 transition">
+                            Bazaga saqlash
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Umumiy yangiliklar lentasi (Hamma uchun o'qish rejimida ochiq) -->
+                <div id="news-display-box" class="md:col-span-12 p-6 bg-[#090d1a] border border-yellow-500/15 rounded-xl space-y-4">
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-regular fa-newspaper text-yellow-500"></i> Real Vaqtdagi E'lonlar (Baza yangiliklari)
+                    </h3>
+                    <p class="text-[11px] text-slate-400">Ma'lumotlar bazasidan (Firestore) real vaqtda (onSnapshot) yangilanib turuvchi e'lonlar lentasi.</p>
+                    
+                    <div id="announcements-list" class="space-y-3 max-h-80 overflow-y-auto pr-1">
+                        <!-- Ma'lumotlar dinamik ravishda shu yerga tushadi -->
+                        <div class="text-xs text-slate-500 text-center py-6">E'lonlar yuklanmoqda...</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Podval -->
+    <footer class="border-t border-yellow-600/10 bg-[#03050a] py-6 text-center text-[10px] text-slate-500">
+        <p>&copy; 2026 TATUALUZ — Real-time Database Security Sandbox</p>
+    </footer>
+
+    <!-- Bildirishnomalar uchun Toast container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- FIREBASE INTEGRATSIYASI (MANDAT QOIDALAR BO'YICHA) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, collection, query, onSnapshot, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global o'zgaruvchilarni olish (Agar mavjud bo'lmasa, default sozlash)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'tatualuz-app';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "",
+                authDomain: "tatualuz-app.firebaseapp.com",
+                projectId: "tatualuz-app",
+                storageBucket: "tatualuz-app.appspot.com",
+                messagingSenderId: "123456789",
+                appId: "1:12345:web:12345"
+              };
+
+        // Firebase-ni ishga tushirish
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        let currentUser = null;
+        let currentUserRole = 'user'; // default
+
+        // Tizimga kirish formasi hodisasi
+        document.getElementById('auth-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const selectedRole = document.getElementById('auth-role').value;
+            
+            showNotification("Ma'lumotlar bazasiga ulanish tashkil etilmoqda...", "info");
+
+            try {
+                // RULE 3: Har doim auth chaqirilishi va await qilinishi shart!
+                let userCredential;
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    userCredential = await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    userCredential = await signInAnonymously(auth);
+                }
+
+                const user = userCredential.user;
+                currentUser = user;
+                currentUserRole = selectedRole;
+
+                // RULE 1: Foydalanuvchi shaxsiy profili uchun xavfsiz va to'g'ri pathdan foydalanish
+                // Path: /artifacts/{appId}/users/{userId}/profile/info
+                const profileDocRef = doc(db, 'artifacts', appId, 'users', user.uid, 'profile', 'info');
+                
+                // Profil ma'lumotlarini bazaga yozish
+                await setDoc(profileDocRef, {
+                    uid: user.uid,
+                    role: selectedRole,
+                    updatedAt: serverTimestamp()
+                });
+
+                showNotification("Baza bilan aloqa o'rnatildi!", "success");
+                setupDashboard(user, selectedRole);
+
+            } catch (error) {
+                console.error("Xatolik yuz berdi:", error);
+                showNotification("Ulanishda xatolik: " + error.message, "error");
+            }
+        });
+
+        // Dashboard interfeysini ko'rsatish
+        function setupDashboard(user, role) {
+            document.getElementById('auth-panel').classList.add('hidden');
+            document.getElementById('main-dashboard').classList.remove('hidden');
+
+            document.getElementById('user-status-bar').innerHTML = `Tizim holati: <span class="text-emerald-400 font-semibold">Ulandi (Secure)</span>`;
+            document.getElementById('display-user-name').textContent = role === 'admin' ? 'Tizim Administratori' : 'Oddiy Foydalanuvchi';
+            document.getElementById('display-user-id').textContent = `User UID: ${user.uid}`;
+
+            const badge = document.getElementById('display-user-role-badge');
+            badge.textContent = role;
+            if (role === 'admin') {
+                badge.className = "text-[10px] px-2.5 py-0.5 rounded font-black uppercase bg-yellow-500 text-slate-950";
+                document.getElementById('admin-action-box').classList.remove('hidden');
+                document.getElementById('news-display-box').className = "md:col-span-7 p-6 bg-[#090d1a] border border-yellow-500/15 rounded-xl space-y-4";
+            } else {
+                badge.className = "text-[10px] px-2.5 py-0.5 rounded font-black uppercase bg-emerald-500 text-slate-950";
+                document.getElementById('admin-action-box').classList.add('hidden');
+                document.getElementById('news-display-box').className = "md:col-span-12 p-6 bg-[#090d1a] border border-yellow-500/15 rounded-xl space-y-4";
+            }
+
+            // Real vaqtda ma'lumotlarni o'qishni boshlash (onSnapshot)
+            startAnnouncementsListener();
+        }
+
+        // RULE 1 va RULE 2 ga rioya qilgan holda ma'lumotlarni real vaqtda o'qish
+        function startAnnouncementsListener() {
+            if (!currentUser) return;
+
+            // Umumiy e'lonlar uchun xavfsiz path (RULE 1)
+            // Path: /artifacts/{appId}/public/data/announcements
+            const announcementsCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'announcements');
+
+            // RULE 2: Hech qanday murakkab query (orderBy, limit) ishlatmasdan oddiy chaqiruv
+            onSnapshot(announcementsCollectionRef, (snapshot) => {
+                const listContainer = document.getElementById('announcements-list');
+                listContainer.innerHTML = '';
+
+                if (snapshot.empty) {
+                    listContainer.innerHTML = `<div class="text-xs text-slate-500 text-center py-6">Hozircha hech qanday e'lon mavjud emas.</div>`;
+                    return;
+                }
+
+                let announcementsList = [];
+                snapshot.forEach((doc) => {
+                    announcementsList.push({ id: doc.id, ...doc.data() });
+                });
+
+                // JavaScript xotirasida saralash (RULE 2 talabi)
+                announcementsList.sort((a, b) => {
+                    const timeA = a.createdAt?.seconds || 0;
+                    const timeB = b.createdAt?.seconds || 0;
+                    return timeB - timeA; // Yangilari tepada ko'rinadi
+                });
+
+                announcementsList.forEach((ann) => {
+                    const item = document.createElement('div');
+                    item.className = 'p-4 bg-[#05070f] border border-yellow-500/10 rounded-lg space-y-1.5 hover:border-yellow-500/30 transition';
+                    item.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <h4 class="text-xs font-bold text-yellow-500 uppercase tracking-wider">${ann.title}</h4>
+                            <span class="text-[9px] text-slate-500">${ann.author || 'Tizim'}</span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">${ann.content}</p>
+                    `;
+                    listContainer.appendChild(item);
+                });
+
+            }, (error) => {
+                // Xatolik yuz berganda xabardor qilish
+                console.error("Firestore tinglashda xatolik:", error);
+                showNotification("Ma'lumotlarni yangilashda xatolik yuz berdi.", "error");
+            });
+        }
+
+        // Admin tomonidan yangi e'lon yozish jarayoni
+        document.getElementById('announcement-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            // Xavfsizlik darvozasi (Role check)
+            if (currentUserRole !== 'admin') {
+                showNotification("Sizda e'lon qo'shish ruxsati yo'q!", "error");
+                return;
+            }
+
+            const title = document.getElementById('ann-title').value.trim();
+            const content = document.getElementById('ann-content').value.trim();
+
+            try {
+                const announcementsCollectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'announcements');
+                
+                await addDoc(announcementsCollectionRef, {
+                    title: title,
+                    content: content,
+                    author: "Litsey Admini",
+                    createdAt: serverTimestamp()
+                });
+
+                showNotification("Yangi e'lon muvaffaqiyatli bazaga yozildi!", "success");
+                document.getElementById('ann-title').value = '';
+                document.getElementById('ann-content').value = '';
+
+            } catch (error) {
+                console.error("Ma'lumot yozishda xatolik:", error);
+                showNotification("Ma'lumot yozishda xatolik yuz berdi: " + error.message, "error");
+            }
+        });
+
+        // Tizimdan chiqish (Logout)
+        window.logout = function() {
+            auth.signOut().then(() => {
+                currentUser = null;
+                document.getElementById('auth-panel').classList.remove('hidden');
+                document.getElementById('main-dashboard').classList.add('hidden');
+                document.getElementById('user-status-bar').innerHTML = `Tizim holati: <span class="text-red-400 font-semibold">Ulanmagan</span>`;
+                showNotification("Tizimdan chiqdingiz.", "info");
+            });
+        };
+
+        // Bildirishnomalarni ko'rsatish funksiyasi
+        function showNotification(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `p-4 rounded-lg shadow-lg text-xs font-semibold text-slate-200 border transform translate-y-2 transition duration-300 pointer-events-auto flex items-center gap-2 ${
+                type === 'success' ? 'bg-[#090d1a] border-emerald-500/50' : type === 'error' ? 'bg-[#090d1a] border-red-500/50' : 'bg-[#090d1a] border-yellow-500/50'
+            }`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'success' ? 'bg-emerald-500' : type === 'error' ? 'bg-red-500' : 'bg-yellow-500'}"></span>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+
+</body>
+</html>
